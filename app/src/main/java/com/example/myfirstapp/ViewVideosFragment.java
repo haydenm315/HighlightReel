@@ -10,6 +10,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 
@@ -29,16 +30,16 @@ public class ViewVideosFragment extends ListFragment {
     private String mParam1;
     private String mParam2;
 
-    OnVideoSelectedListener mCallback;
+    //OnVideoSelectedListener mCallback;
 
     public ViewVideosFragment() {
         // Required empty public constructor
     }
 
-    public interface OnVideoSelectedListener
+    /*public interface OnVideoSelectedListener
     {
         public void onVideoSelected(int position);
-    }
+    }*/
 
     /**
      * Use this factory method to create a new instance of
@@ -74,11 +75,14 @@ public class ViewVideosFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ArrayList<String> filesInFolder = getFiles("video");
+        ArrayList<File> filesInFolder = getFiles("video");
         View view =inflater.inflate(R.layout.fragment_view_videos, container, false);
-        List = (ListView) view.findViewById(R.id.videoList);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_expandable_list_item_1, filesInFolder) ;
-        List.setAdapter(arrayAdapter);
+        List = (ListView) view.findViewById(android.R.id.list);
+
+        VideoListAdapter adapter = new VideoListAdapter(this.getActivity(),filesInFolder);
+        List.setAdapter(adapter);
+        //ArrayAdapter<File> arrayAdapter = new ArrayAdapter<File>(getActivity(),android.R.layout.simple_expandable_list_item_1, filesInFolder) ;
+        //List.setAdapter(arrayAdapter);
 
         return view;
     }
@@ -90,20 +94,20 @@ public class ViewVideosFragment extends ListFragment {
 
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
-        try {
+        /*(try {
             mCallback = (OnVideoSelectedListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " must implement OnVideoSelectedListener");
-        }
+        }*/
     }
 
 
 
 
-    private ArrayList<String> getFiles(String path) {
+    private ArrayList<File> getFiles(String path) {
         Activity activity = getActivity();
-        ArrayList<String> videos = new ArrayList<String>();
+        ArrayList<File> videoFiles = new ArrayList<File>();
         File location = activity.getExternalFilesDir("video");
 
         location.mkdirs();
@@ -115,10 +119,20 @@ public class ViewVideosFragment extends ListFragment {
         {
             for (int fileIndex = 0; fileIndex < files.length; fileIndex++)
             {
-               videos.add(files[fileIndex].getName());
+               videoFiles.add(files[fileIndex].getAbsoluteFile());
             }
         }
-        return videos;
+        return videoFiles;
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        System.out.println("list was clicked bitch");
+        File file = (File)l.getItemAtPosition(position);
+        System.out.println("file name: " + file.getName());
+
+        Intent intent = new Intent(this.getActivity(), PlayVideoActivity.class);
+        startActivity(intent);
     }
 
 

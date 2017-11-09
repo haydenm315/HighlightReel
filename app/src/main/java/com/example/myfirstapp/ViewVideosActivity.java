@@ -5,7 +5,8 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 
-public class ViewVideosActivity extends AppCompatActivity {
+public class ViewVideosActivity extends AppCompatActivity
+   {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +18,9 @@ public class ViewVideosActivity extends AppCompatActivity {
         //Toolbar viewVideosToolbar = (Toolbar) findViewById(R.id.displayMessageToolbar);
         //setSupportActionBar(viewVideosToolbar);
 
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
     }
+
 }
