@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 public class ViewVideosActivity extends AppCompatActivity
    {
+       public static String VIDEO_FILE= "com.example.myfirstapp.VIDEO_FILE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

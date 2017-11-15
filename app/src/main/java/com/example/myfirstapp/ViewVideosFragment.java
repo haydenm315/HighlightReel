@@ -4,15 +4,12 @@ import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+
 import android.widget.ListView;
-import android.widget.ArrayAdapter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -102,9 +99,6 @@ public class ViewVideosFragment extends ListFragment {
         }*/
     }
 
-
-
-
     private ArrayList<File> getFiles(String path) {
         Activity activity = getActivity();
         ArrayList<File> videoFiles = new ArrayList<File>();
@@ -127,13 +121,14 @@ public class ViewVideosFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        System.out.println("list was clicked bitch");
         File file = (File)l.getItemAtPosition(position);
         System.out.println("file name: " + file.getName());
 
+        ViewVideosActivity activity = (ViewVideosActivity)this.getActivity();
         Intent intent = new Intent(this.getActivity(), PlayVideoActivity.class);
+        intent.putExtra(activity.VIDEO_FILE, file.getAbsolutePath());
+
         startActivity(intent);
     }
-
 
 }
